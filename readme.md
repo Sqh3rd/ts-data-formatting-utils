@@ -2,6 +2,19 @@
 
 This is a library for formatting data using only ts
 
+# Table of Contents
+
+- [Visualization](#Visualization)
+    - [Table](#Table)
+        - [Formatted Table](#Formatted Table)
+    - [Diagrams](#Diagrams)
+        - [Bar Diagram](#Bar Diagram)
+            - [General](#General)
+            - [Range](#Range)
+            - [Sections](#Sections)
+
+# Visualization
+
 ## Table
 
 ### Formatted Table
