@@ -3,7 +3,7 @@ import { Timeable } from "./interfaces";
 
 export const formattedTimeableTable = <T extends Timeable>(
   timeables: Array<T>,
-  durations: { warn: number; critical: number },
+  durations: { warn: number; critical: number }
 ) => {
   let table = toFormattedTable(timeables);
   for (let i = 0; i < table.columns["duration"].values.length; i++) {

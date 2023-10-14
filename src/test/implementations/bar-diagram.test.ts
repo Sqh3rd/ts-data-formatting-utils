@@ -7,18 +7,27 @@ import {
 
 describe("bar-diagram", () => {
   let max = 100_000;
+  let height = 10;
 
-  test("print range bar-diagram", () => {
-    let entries = [...Array(max).keys()].map((i) => {
-      if (i % 5 === 0) return 100;
-      return 500;
+  describe("range bar-diagrams", () => {
+    test("amount of values > height", () => {
+      let entries = [...Array(max).keys()].map((i) => {
+        if (i % 5 === 0) return 100;
+        return 500;
+      });
+      console.log(
+        barDiagramWithRanges(
+          generateEntriesByRangesFromInput(entries, [250, 500, 750]),
+          height
+        )
+      );
     });
-    console.log(
-      barDiagramWithRanges(
-        generateEntriesByRangesFromInput(entries, [250, 500, 750]),
-        10,
-      ),
-    );
+    test("amount of values < height", () => {
+      let entries = [...Array(height).keys()].map((i) => { if (i% 3) return 100; return 500;});
+      console.log(barDiagramWithRanges(
+        generateEntriesByRangesFromInput(entries, [250, 500, 750]), height
+      ));
+    })
   });
 
   test("print section bar-diagram", () => {
@@ -28,7 +37,7 @@ describe("bar-diagram", () => {
       else return "BMW";
     });
     console.log(
-      barDiagramWithSections(generateEntriesBySectionsFromInput(entries), 10),
+      barDiagramWithSections(generateEntriesBySectionsFromInput(entries), 10)
     );
   });
 });

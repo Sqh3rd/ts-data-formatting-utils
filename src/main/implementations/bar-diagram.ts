@@ -36,7 +36,7 @@ const alignCenter = (
   value: string,
   maxCharacters: number,
   fillCharacter: string = " ",
-  secondHalfFillCharacter?: string,
+  secondHalfFillCharacter?: string
 ): string => {
   secondHalfFillCharacter = secondHalfFillCharacter ?? fillCharacter;
   if (maxCharacters < value.length) {
@@ -59,7 +59,7 @@ const getLongestStringFromArray = (array: any[]): string => {
 
 const generateEntriesByRanges = (
   durationsAsArray: number[],
-  measurables: number[],
+  measurables: number[]
 ): EntriesByRanges<number> => {
   let entriesByDuration: ElementsInRange<number>[] = [];
   let maxAmount = 0;
@@ -90,7 +90,7 @@ const generateEntriesByRanges = (
       } else end = durationCopy[i];
     }
     let filteredMeasurables = measurablesDuplicate.filter(
-      (measurable) => measurable <= end && measurable >= start,
+      (measurable) => measurable <= end && measurable >= start
     );
     entriesByDuration.push({
       start: start,
@@ -99,7 +99,7 @@ const generateEntriesByRanges = (
       elements: [...filteredMeasurables],
     });
     measurablesDuplicate = measurablesDuplicate.filter(
-      (item) => filteredMeasurables.indexOf(item) < 0,
+      (item) => filteredMeasurables.indexOf(item) < 0
     );
     maxAmount = Math.max(maxAmount, filteredMeasurables.length);
   }
@@ -114,7 +114,7 @@ const generateSection = (
   section: number,
   index: number,
   length: number,
-  longestIndicator: number,
+  longestIndicator: number
 ) => {
   let midCharacter = blockCharacters.UPPER_HALF;
   let start = "";
@@ -122,13 +122,13 @@ const generateSection = (
   if (section === 0) midCharacter = formattingCharacters.HORIZONTAL_LINE;
   if (index === 0)
     start = formattingCharacters.HORIZONTAL_LINE.repeat(
-      Math.floor(longestIndicator / 2),
+      Math.floor(longestIndicator / 2)
     );
   else if (index === length - 1)
     end =
       formattingCharacters.VERTICAL_HORIZONTAL_LINE +
       formattingCharacters.HORIZONTAL_LINE.repeat(
-        Math.ceil(longestIndicator / 2),
+        Math.ceil(longestIndicator / 2)
       );
   let mid = midCharacter.repeat(longestIndicator);
   return `${start}${formattingCharacters.VERTICAL_HORIZONTAL_LINE}${mid}${end}`;
@@ -138,16 +138,16 @@ const generateFooter = (
   stepPaddingAmount: number,
   stepPadding: string,
   amounts: number[],
-  longestIndicator: number,
+  longestIndicator: number
 ) => {
   let footer: string[] = [];
   footer.push(
-    " ".repeat(stepPaddingAmount - 2) + "0 " + formattingCharacters.INVERTED_T,
+    " ".repeat(stepPaddingAmount - 2) + "0 " + formattingCharacters.INVERTED_T
   );
   footer.push(stepPadding + " ");
   footer[0] += amounts
     .map((section, index) =>
-      generateSection(section, index, amounts.length, longestIndicator),
+      generateSection(section, index, amounts.length, longestIndicator)
     )
     .join("");
   return footer;
@@ -158,13 +158,13 @@ const generateFooterWithRanges = (
   stepPadding: string,
   sections: number[],
   longestIndicator: number,
-  durationsAsArray: number[],
+  durationsAsArray: number[]
 ): string[] => {
   let footer = generateFooter(
     stepPaddingAmount,
     stepPadding,
     sections,
-    longestIndicator,
+    longestIndicator
   );
   footer[1] += durationsAsArray
     .map((d) => alignCenter(String(d), longestIndicator))
@@ -177,13 +177,13 @@ const generateFooterWithSections = (
   stepPadding: string,
   sections: number[],
   longestIndicator: number,
-  titles: string[],
+  titles: string[]
 ): string[] => {
   let footer = generateFooter(
     stepPaddingAmount,
     stepPadding,
     sections,
-    longestIndicator,
+    longestIndicator
   );
   footer[1] += " ".repeat(Math.floor(longestIndicator / 2) + 1);
   footer[1] += titles.map((t) => alignCenter(t, longestIndicator)).join(" ");
@@ -204,7 +204,7 @@ const generateBarSection = (
   longestIndicator: number,
   previousStep: number,
   limiterChar: string,
-  stepSize: number,
+  stepSize: number
 ) => {
   return sections
     .map((section) => {
@@ -223,7 +223,7 @@ const replaceIfSurroundedBy = (
   s: string,
   toReplace: string,
   replaceBy: string,
-  surroundingChar: string,
+  surroundingChar: string
 ) => {
   let returnString = "";
   let indices = [-(surroundingChar.length + toReplace.length)];
@@ -231,7 +231,7 @@ const replaceIfSurroundedBy = (
   do {
     currentIndex = s.indexOf(
       `${surroundingChar}${toReplace}${surroundingChar}`,
-      currentIndex + 1,
+      currentIndex + 1
     );
     indices.push(currentIndex);
   } while (currentIndex > -1);
@@ -239,12 +239,12 @@ const replaceIfSurroundedBy = (
   for (let i = 1; i < indices.length; i++) {
     returnString += s.slice(
       indices[i - 1] + surroundingChar.length + toReplace.length,
-      indices[i] + surroundingChar.length,
+      indices[i] + surroundingChar.length
     );
     returnString += replaceBy;
   }
   returnString += s.slice(
-    indices[indices.length - 1] + surroundingChar.length + toReplace.length,
+    indices[indices.length - 1] + surroundingChar.length + toReplace.length
   );
   return returnString;
 };
@@ -255,7 +255,7 @@ const generateBodyBar = (
   stepPadding: string,
   stepPaddingAmount: number,
   longestIndicator: number,
-  sections: number[],
+  sections: number[]
 ) => {
   let bars: string[] = [];
   let previousStep = 0;
@@ -280,7 +280,7 @@ const generateBodyBar = (
       longestIndicator,
       previousStep,
       limiterChar,
-      stepSize,
+      stepSize
     );
     currentBar += generateBarSuffix(limiterChar, longestIndicator);
     bars.push(
@@ -288,8 +288,8 @@ const generateBodyBar = (
         currentBar,
         " ",
         formattingCharacters.HORIZONTAL_LINE,
-        formattingCharacters.HORIZONTAL_LINE,
-      ),
+        formattingCharacters.HORIZONTAL_LINE
+      )
     );
     previousStep = currentStep;
   }
@@ -301,7 +301,7 @@ const generateHeaderBar = (
   sections: number[],
   maxDisplay: number,
   stepSize: number,
-  longestIndicator: number,
+  longestIndicator: number
 ) => {
   let header = "";
   header += " ".repeat(stepPaddingAmount + 1);
@@ -322,7 +322,7 @@ const generateBars = (
   stepPadding: string,
   stepPaddingAmount: number,
   longestIndicator: number,
-  sections: number[],
+  sections: number[]
 ) => {
   let stepSize = maxDisplay / (height / 2) / 2;
   let bars = generateBodyBar(
@@ -331,7 +331,7 @@ const generateBars = (
     stepPadding,
     stepPaddingAmount,
     longestIndicator,
-    sections,
+    sections
   );
   bars.push(
     generateHeaderBar(
@@ -339,15 +339,15 @@ const generateBars = (
       sections,
       maxDisplay,
       stepSize,
-      longestIndicator,
-    ),
+      longestIndicator
+    )
   );
   return bars;
 };
 
 export const generateEntriesByRangesFromInput = (
   inputs: number[],
-  durations: number[],
+  durations: number[]
 ): EntriesByRanges<number> => {
   let filteredInputs = inputs.filter((input) => input != null);
   if (filteredInputs.length === 0)
@@ -356,7 +356,7 @@ export const generateEntriesByRangesFromInput = (
 };
 
 const generateEntriesBySections = <T>(
-  filteredInputs: T[],
+  filteredInputs: T[]
 ): EntriesBySections<T> => {
   let filteredInputsCopy = [...filteredInputs];
   let entries: EntriesBySections<T> = {
@@ -368,7 +368,7 @@ const generateEntriesBySections = <T>(
   inputSet.forEach((e) => {
     let elementsInInputs = filteredInputsCopy.filter((le) => le === e);
     filteredInputsCopy = filteredInputsCopy.filter(
-      (le) => elementsInInputs.indexOf(le) < 0,
+      (le) => elementsInInputs.indexOf(le) < 0
     );
     let amount = elementsInInputs.length;
     if (amount > entries.maxAmount) entries.maxAmount = amount;
@@ -383,7 +383,7 @@ const generateEntriesBySections = <T>(
 };
 
 export const generateEntriesBySectionsFromInput = <T>(
-  inputs: T[],
+  inputs: T[]
 ): EntriesBySections<T> => {
   let filteredInputs = inputs.filter((input) => input != null);
   if (filteredInputs.length === 0)
@@ -394,7 +394,7 @@ export const generateEntriesBySectionsFromInput = <T>(
 const getCommonNumbers = (
   maxAmount: number,
   amounts: number[],
-  differenciators: Array<number | string>,
+  differenciators: Array<number | string>
 ) => {
   let maxAsE = maxAmount
     .toExponential(1)
@@ -415,7 +415,7 @@ const getCommonNumbers = (
 
 export const barDiagramWithRanges = <T>(
   entries: EntriesByRanges<T>,
-  height: number,
+  height: number
 ): string => {
   let ranges = entries.ranges.sort((d1, d2) => d1 - d2);
   let amounts = entries.elementsByRanges.map((e) => e.amount);
@@ -429,14 +429,14 @@ export const barDiagramWithRanges = <T>(
     stepPadding,
     sections,
     commonNumbers.longestIndicator,
-    ranges,
+    ranges
   );
   return barDiagram(footer, sections, commonNumbers, stepPadding, height);
 };
 
 export const barDiagramWithSections = <T>(
   entries: EntriesBySections<T>,
-  height: number,
+  height: number
 ): string => {
   let sections = entries.sections.sort();
   let amounts = entries.elementsBySections.map((e) => e.amount);
@@ -450,14 +450,14 @@ export const barDiagramWithSections = <T>(
     stepPadding,
     amountBySection,
     commonNumbers.longestIndicator,
-    sections,
+    sections
   );
   return barDiagram(
     footer,
     amountBySection,
     commonNumbers,
     stepPadding,
-    height,
+    height
   );
 };
 
@@ -466,7 +466,7 @@ const barDiagram = (
   sections: number[],
   commonNumbers: CommonNumbers,
   stepPadding: string,
-  height: number,
+  height: number
 ): string => {
   let bars = generateBars(
     height,
@@ -474,7 +474,7 @@ const barDiagram = (
     stepPadding,
     commonNumbers.stepPaddingAmount,
     commonNumbers.longestIndicator,
-    sections,
+    sections
   );
 
   return `${bars.reverse().join("\n")}\n${footer.join("\n")}`;

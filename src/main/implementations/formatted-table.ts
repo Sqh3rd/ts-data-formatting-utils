@@ -30,7 +30,7 @@ const getTextWithPrefixIfHasLength = (
   prefix: string,
   text: string,
   textToAppend: string,
-  length?: number,
+  length?: number
 ) => {
   let usedPrefix = prefix;
   if (text.length === length) {
@@ -53,18 +53,18 @@ const extendHeader = (header: string[], column: TableColumn) => {
     String.fromCharCode(0x252c),
     header[0],
     formattingCharacters.HORIZONTAL_LINE.repeat(column.width + 2),
-    1,
+    1
   );
   header[1] += getTextWithPrefixIfHasLength(
     formattingCharacters.VERTICAL_LINE,
     header[1],
-    columnTest,
+    columnTest
   );
   header[2] += getTextWithPrefixIfHasLength(
     formattingCharacters.VERTICAL_HORIZONTAL_LINE,
     header[2],
     formattingCharacters.HORIZONTAL_LINE.repeat(column.width + 2),
-    1,
+    1
   );
 };
 
