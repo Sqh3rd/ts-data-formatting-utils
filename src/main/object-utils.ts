@@ -26,3 +26,7 @@ export const compareStrings = (s1: string, s2: string) => {
   else if (s2 > s1) return 1;
   else return 0;
 };
+
+export const findBiggest = (n1: number, n2: number) => {
+  return n1 < n2 ? n2 : n1;
+}

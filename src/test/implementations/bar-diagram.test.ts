@@ -13,6 +13,7 @@ describe("bar-diagram", () => {
     test("amount of values > height", () => {
       let entries = [...Array(max).keys()].map((i) => {
         if (i % 5 === 0) return 100;
+        if (i % 7 === 0) return 800;
         return 500;
       });
       console.log(

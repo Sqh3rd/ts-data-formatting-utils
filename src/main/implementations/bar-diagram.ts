@@ -1,5 +1,5 @@
 import { blockCharacters, formattingCharacters } from "../constants";
-import { compareStrings } from "../object-utils";
+import { compareStrings, findBiggest } from "../object-utils";
 
 export interface ElementsInRange<T> {
   start: number;
@@ -208,11 +208,11 @@ const generateBarSection = (
 ) => {
   return sections
     .map((section) => {
-      if (section < previousStep - stepSize / 2)
+      if (section < previousStep - Math.floor(stepSize / 2))
         return limiterChar.repeat(longestIndicator);
       else if (section > currentStep)
         return blockCharacters.FULL.repeat(longestIndicator);
-      else if (section >= previousStep + stepSize / 2)
+      else if (section >= previousStep + Math.ceil(stepSize / 2))
         return blockCharacters.LOWER_HALF.repeat(longestIndicator);
       return alignCenter(String(section), longestIndicator);
     })
@@ -415,7 +415,7 @@ const getCommonNumbers = (
 
 export const barDiagramWithRanges = <T>(
   entries: EntriesByRanges<T>,
-  height: number
+  maxHeight: number
 ): string => {
   let ranges = entries.ranges.sort((d1, d2) => d1 - d2);
   let amounts = entries.elementsByRanges.map((e) => e.amount);
@@ -431,6 +431,7 @@ export const barDiagramWithRanges = <T>(
     commonNumbers.longestIndicator,
     ranges
   );
+  let height = entries.maxAmount < maxHeight ? entries.maxAmount : maxHeight;
   return barDiagram(footer, sections, commonNumbers, stepPadding, height);
 };
 

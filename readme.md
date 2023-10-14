@@ -19,38 +19,70 @@ example Input: `[{ name: "asdf", value: 1 }, { name: "something else indeed", va
 ```
 
 ## Diagrams
-### However the fuck it's called in english Säulendiagramm
+### Bar Diagram
+#### General
+If the max amount does not equal or exceed the max height passed to the function
+the diagram will use a lower height, otherwise it'd get fucked. Cheers
+```
+      6
+6 │─ ▄▄▄ ──────────
+  │  ███  4        
+4 │─ ███ ▄▄▄ ──────
+  │  ███ ███       
+2 │─ ███ ███ ──────
+  │  ███ ███  0    
+0 ┴─┼▀▀▀┼▀▀▀┼───┼──
+   100 250 500 750
+```
 #### Range
-Example input: ``
+Visualize how many entries have a value in the given range
 ```
-                   80000
-   81000 │──────── ▄▄▄▄▄ ─────────
-         │         █████
-   64800 │──────── █████ ─────────
-         │         █████
-   48600 │──────── █████ ─────────
-         │         █████
-   32400 │──────── █████ ─────────
-         │   20000 █████
-   16200 │── █████ █████ ─────────
-         │   █████ █████   0      
-       0 ┴──┼▀▀▀▀▀┼▀▀▀▀▀┼─────┼───
-           100   250   500   750
+let dataArray = [100 * 20_000, 500 * 80_000];
+let range = [250, 500, 750]
+let barDiagramEntries = generateEntriesByRangesFromInput(dataArray, range); 
+let maxHeight = 10;
+
+barDiagramWithRanges(barDiagramEntries, maxHeight);
 ```
+with the above code snippet the following output string is generated
+```
+                80000
+81000 │──────── ▄▄▄▄▄ ─────────
+      │         █████
+64800 │──────── █████ ─────────
+      │         █████
+48600 │──────── █████ ─────────
+      │         █████
+32400 │──────── █████ ─────────
+      │   20000 █████
+16200 │── █████ █████ ─────────
+      │   █████ █████   0      
+    0 ┴──┼▀▀▀▀▀┼▀▀▀▀▀┼─────┼───
+        100   250   500   750
+```
+**Note**: If an entry is above or below the extremes in the range the value is
+added in the diagram
 #### Sections
-Example input: `["BMW" * 53333, "MERCEDES" * 26667, "VW" * 20000]`
+Visualize how many entries have the same string
 ```
-                53333
-   54000 │──── ▄▄▄▄▄▄▄▄ ──────────────────────
-         │     ████████
-   43200 │──── ████████ ──────────────────────
-         │     ████████
-   32400 │──── ████████  26667   ─────────────
-         │     ████████ ▄▄▄▄▄▄▄▄  20000
-   21600 │──── ████████ ████████ ▄▄▄▄▄▄▄▄ ────
-         │     ████████ ████████ ████████
-   10800 │──── ████████ ████████ ████████ ────
-         │     ████████ ████████ ████████
-       0 ┴────┼▀▀▀▀▀▀▀▀┼▀▀▀▀▀▀▀▀┼▀▀▀▀▀▀▀▀┼────
-                 BMW    MERCEDES    VW
+let dataArray = ["BMW" * 53_333, "MERCEDES" * 26_667, "VW" * 20_000];
+let barDiagramEntries = generateEntriesBySectionsFromInput(dataArray);
+let maxHeight = 10;
+
+barDiagramWithSections(barDiagramEntries, maxHeight);
+```
+```
+             53333
+54000 │──── ▄▄▄▄▄▄▄▄ ──────────────────────
+      │     ████████
+43200 │──── ████████ ──────────────────────
+      │     ████████
+32400 │──── ████████  26667   ─────────────
+      │     ████████ ▄▄▄▄▄▄▄▄  20000
+21600 │──── ████████ ████████ ▄▄▄▄▄▄▄▄ ────
+      │     ████████ ████████ ████████
+10800 │──── ████████ ████████ ████████ ────
+      │     ████████ ████████ ████████
+    0 ┴────┼▀▀▀▀▀▀▀▀┼▀▀▀▀▀▀▀▀┼▀▀▀▀▀▀▀▀┼────
+              BMW    MERCEDES    VW
 ```
