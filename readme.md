@@ -6,8 +6,13 @@ This is a library for formatting data using only ts
 
 ### Formatted Table
 
-yes.
-example Input: `[{ name: "asdf", value: 1 }, { name: "something else indeed", value: 100 }]`
+```typescript
+let testArray = [
+    { name: "asdf", value: 1 },
+    { name: "something else indeed", value: 100 },
+];
+toFormattedTable(testArray).toFormattedString();
+```
 
 ```
 ┌───────────────────────┬───────┐
@@ -19,10 +24,25 @@ example Input: `[{ name: "asdf", value: 1 }, { name: "something else indeed", va
 ```
 
 ## Diagrams
+
 ### Bar Diagram
+
 #### General
+
 If the max amount does not equal or exceed the max height passed to the function
 the diagram will use a lower height, otherwise it'd get fucked. Cheers
+
+```typescript
+let dataArray = [100 * 6, 500 * 4];
+let range = [250, 500, 750];
+let barDiagramEntries = generateEntriesByRangesFromInput(dataArray, range);
+let maxHeight = 10;
+
+barDiagramWithRanges(barDiagramEntries, maxHeight);
+```
+
+Even tho maxHeight is set to 10, the height of the bar diagram body is lower
+
 ```
       6
 6 │─ ▄▄▄ ──────────
@@ -34,9 +54,12 @@ the diagram will use a lower height, otherwise it'd get fucked. Cheers
 0 ┴─┼▀▀▀┼▀▀▀┼───┼──
    100 250 500 750
 ```
+
 #### Range
+
 Visualize how many entries have a value in the given range
-```
+
+```typescript
 let dataArray = [100 * 20_000, 500 * 80_000];
 let range = [250, 500, 750]
 let barDiagramEntries = generateEntriesByRangesFromInput(dataArray, range); 
@@ -44,7 +67,9 @@ let maxHeight = 10;
 
 barDiagramWithRanges(barDiagramEntries, maxHeight);
 ```
+
 with the above code snippet the following output string is generated
+
 ```
                 80000
 81000 │──────── ▄▄▄▄▄ ─────────
@@ -60,17 +85,22 @@ with the above code snippet the following output string is generated
     0 ┴──┼▀▀▀▀▀┼▀▀▀▀▀┼─────┼───
         100   250   500   750
 ```
+
 **Note**: If an entry is above or below the extremes in the range the value is
 added in the diagram
+
 #### Sections
+
 Visualize how many entries have the same string
-```
+
+```typescript
 let dataArray = ["BMW" * 53_333, "MERCEDES" * 26_667, "VW" * 20_000];
 let barDiagramEntries = generateEntriesBySectionsFromInput(dataArray);
 let maxHeight = 10;
 
 barDiagramWithSections(barDiagramEntries, maxHeight);
 ```
+
 ```
              53333
 54000 │──── ▄▄▄▄▄▄▄▄ ──────────────────────
